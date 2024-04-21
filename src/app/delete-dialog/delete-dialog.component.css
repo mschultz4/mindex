@@ -1,0 +1,12 @@
+.delete-dialog {
+  height: 175px;
+  width: 300px;
+}
+
+.delete-buttons {
+  justify-content: flex-end;
+}
+
+.delete-dialog-report {
+  font-weight: bold;
+}

@@ -1,0 +1,44 @@
+<mat-dialog-content class="edit-dialog">
+    <h2>Update Compensation</h2>
+    <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput
+               disabled
+               placeholder="First Name"
+               [(ngModel)]="data.directReport.firstName">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput
+               disabled
+               placeholder="Last Name"
+               [(ngModel)]="data.directReport.lastName">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput
+               disabled
+               placeholder="Title"
+               [(ngModel)]="data.directReport.position">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Compensation</mat-label>
+        <input matInput
+               required
+               placeholder="Compensation"
+               [(ngModel)]="data.directReport.compensation"
+               #compensation="ngModel"
+               pattern="^[0-9]*$">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions class='edit-buttons'>
+    <button mat-raised-button
+            (click)="onCancel()">Cancel</button>
+    <button mat-raised-button
+            [disabled]="!compensation.valid"
+            color="primary"
+            (click)="onSave(data.directReport)">Save</button>
+</mat-dialog-actions>

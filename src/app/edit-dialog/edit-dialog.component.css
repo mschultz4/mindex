@@ -1,0 +1,13 @@
+mat-form-field {
+  width: 100%;
+}
+
+.edit-dialog {
+  padding: 2rem;
+  height: 425px;
+  width: 400px;
+}
+
+.edit-buttons {
+  justify-content: flex-end;
+}

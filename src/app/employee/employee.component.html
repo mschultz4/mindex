@@ -1,12 +1,46 @@
-<mat-card class="employee">
-  <mat-card-header>
-    <mat-card-title>{{employee.lastName}}, {{employee.firstName}}</mat-card-title>
-    <mat-card-subtitle>{{employee.id}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <dl>
-      <dt>Job Title</dt>
-      <dd>{{employee.position}}</dd>
-    </dl>
-  </mat-card-content>
-</mat-card>
+<mat-list-item class="employee-list-item">
+    <div class="employee-item-content">
+        <h3>{{employee.firstName}} {{employee.lastName}}, {{employee.position}}</h3>
+        <div class="employee-data-row">
+            <div class="employee-data-item">
+                <dt>Employee ID:</dt>
+                <dd class="employee-data-value">{{employee.id}}</dd>
+            </div>
+
+            <div class="employee-data-item">
+                <dt>Total Reports:</dt>
+                <dd class="employee-data-value">{{employee.totalReports}}</dd>
+            </div>
+
+            <div class="employee-data-item"
+                 *ngIf="employee.compensation > 0">
+                <dt>Compensation:</dt>
+                <dd class="employee-data-value">${{employee.compensation}}</dd>
+            </div>
+        </div>
+        <mat-expansion-panel *ngIf="employee.totalReports > 0">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Direct Reports
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-list class="employee-expansion-content">
+                <mat-list-item *ngFor="let directReport of employee.directReportEmployees">
+                    <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                        <span>{{directReport.firstName}} {{directReport.lastName}}, {{directReport.position}}</span>
+                        <div style="margin-left: auto;">
+                            <button mat-icon-button
+                                    (click)="triggerEdit(directReport)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button
+                                    (click)="triggerDelete(directReport)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </mat-expansion-panel>
+    </div>
+</mat-list-item>
