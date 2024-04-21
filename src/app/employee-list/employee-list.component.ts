@@ -4,8 +4,8 @@ import { of } from "rxjs";
 import { MatDialog } from "@angular/material/dialog";
 
 import { Employee } from "../employee";
-import { DeleteDialog } from "../delete-dialog/delete-dialog.component";
-import { EditDialog } from "../edit-dialog/edit-dialog.component";
+import { DeleteDialogComponent } from "../delete-dialog/delete-dialog.component";
+import { EditDialogComponent } from "../edit-dialog/edit-dialog.component";
 import { EmployeeService } from "../employee.service";
 import { EmployeeActionEvent, EmployeeActionEvents } from "../constants/events";
 
@@ -16,7 +16,7 @@ import { EmployeeActionEvent, EmployeeActionEvents } from "../constants/events";
 })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
-  errorMessage: string = "";
+  errorMessage = "";
 
   constructor(
     private employeeService: EmployeeService,
@@ -31,7 +31,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   fetchEmployees() {
-    console.log("Fetching employees");
+    ("Fetching employees");
     this.employeeService
       .getAll()
       .pipe(
@@ -40,28 +40,13 @@ export class EmployeeListComponent implements OnInit {
             employees.concat(employee),
           []
         ),
-        map((employees) => {
-          // First pass: create the directReportEmployees property for all employees
-          const employeesWithDirectReports = employees.map(
-            (employee: Employee) => ({
-              ...employee,
-              directReportEmployees: this.getDirectReports(employee, employees),
-            })
-          );
-
-          // Second pass: create the totalReports property for all employees
-          return employeesWithDirectReports.map((employee: Employee) => ({
-            ...employee,
-            totalReports: this.getTotalReports(employee, employees),
-          }));
-        }),
         catchError((e) => {
           this.handleError(e);
           return of([]);
         })
       )
       .subscribe((employees) => {
-        this.employees = employees;
+        this.employees = this.addReportProperties(employees);
       });
   }
 
@@ -71,7 +56,6 @@ export class EmployeeListComponent implements OnInit {
   }
 
   getDirectReports(employee: Employee, employees: Employee[]): Employee[] {
-    console.log(employees);
     if (!employee?.directReports) {
       return [];
     } else {
@@ -99,15 +83,30 @@ export class EmployeeListComponent implements OnInit {
 
   handleEmployeeAction({ type, payload: directReport }: EmployeeActionEvent) {
     if (type === EmployeeActionEvents.DELETE_EMPLOYEE) {
-      this.dialog.open(DeleteDialog, {
+      this.dialog.open(DeleteDialogComponent, {
         data: { directReport },
       });
     }
 
     if (type === EmployeeActionEvents.EDIT_EMPLOYEE) {
-      this.dialog.open(EditDialog, {
+      this.dialog.open(EditDialogComponent, {
         data: { directReport },
       });
     }
+  }
+
+  // Ideally these properties would be added server side or stored in a database
+  addReportProperties(employees: Employee[]): Employee[] {
+    // First pass: create the directReportEmployees property for all employees
+    const employeesWithDirectReports = employees.map((employee: Employee) => ({
+      ...employee,
+      directReportEmployees: this.getDirectReports(employee, employees),
+    }));
+
+    // Second pass: create the totalReports property for all employees
+    return employeesWithDirectReports.map((employee: Employee) => ({
+      ...employee,
+      totalReports: this.getTotalReports(employee, employees),
+    }));
   }
 }

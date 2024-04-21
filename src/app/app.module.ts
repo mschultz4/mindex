@@ -8,8 +8,8 @@ import { AppComponent } from "./app.component";
 import { BackendlessMockService } from "./backendless-mock.service";
 import { EmployeeComponent } from "./employee/employee.component";
 import { EmployeeListComponent } from "./employee-list/employee-list.component";
-import { DeleteDialog } from "./delete-dialog/delete-dialog.component";
-import { EditDialog } from "./edit-dialog/edit-dialog.component";
+import { DeleteDialogComponent } from "./delete-dialog/delete-dialog.component";
+import { EditDialogComponent } from "./edit-dialog/edit-dialog.component";
 import { EmployeeService } from "./employee.service";
 import { MatCardModule } from "@angular/material/card";
 import { MatGridListModule } from "@angular/material/grid-list";
@@ -24,8 +24,8 @@ import { MatDialogModule } from "@angular/material/dialog";
 @NgModule({
   declarations: [
     AppComponent,
-    DeleteDialog,
-    EditDialog,
+    DeleteDialogComponent,
+    EditDialogComponent,
     EmployeeComponent,
     EmployeeListComponent,
   ],

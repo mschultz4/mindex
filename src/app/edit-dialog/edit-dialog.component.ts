@@ -8,10 +8,10 @@ import { EmployeeService } from "../employee.service";
   styleUrls: ["./edit-dialog.component.css"],
   templateUrl: "./edit-dialog.component.html",
 })
-export class EditDialog {
+export class EditDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { directReport: Employee },
-    private dialogRef: MatDialogRef<EditDialog>,
+    private dialogRef: MatDialogRef<EditDialogComponent>,
     private employeeService: EmployeeService
   ) {}
 
